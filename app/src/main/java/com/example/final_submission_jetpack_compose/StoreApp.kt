@@ -67,7 +67,11 @@ fun StoreApp(
                 CartScreen()
             }
             composable(Screen.About.route) {
-                AboutScreen()
+                AboutScreen(
+                    navigateBack = {
+                        navController.navigateUp()
+                    },
+                )
             }
         }
     }
