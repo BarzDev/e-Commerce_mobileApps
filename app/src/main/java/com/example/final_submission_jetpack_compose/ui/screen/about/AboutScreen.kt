@@ -25,9 +25,9 @@ import androidx.navigation.compose.rememberNavController
 
 
 @Composable
-fun AboutScreen(onBack: () -> Unit) {
+fun AboutScreen() {
     Scaffold(
-        topBar = { AppBar(onBack) },
+        topBar = { AppBar() },
         content = { padding ->
             Box(
                 modifier = Modifier
@@ -43,11 +43,11 @@ fun AboutScreen(onBack: () -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(onBack: () -> Unit) {
+fun AppBar() {
     CenterAlignedTopAppBar(
         title = { Text("About") },
         navigationIcon = {
-            IconButton(onClick = onBack) {
+            IconButton(onClick = {}) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back"
@@ -61,5 +61,5 @@ fun AppBar(onBack: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun AboutScreenPreview() {
-    AboutScreen(onBack = {})
+    AboutScreen()
 }
