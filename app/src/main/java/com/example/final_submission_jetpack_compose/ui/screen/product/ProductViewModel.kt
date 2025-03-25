@@ -6,19 +6,32 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.final_submission_jetpack_compose.data.ProductRepository
 import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem
+import com.example.final_submission_jetpack_compose.ui.common.UiState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ProductViewModel(private val repository: ProductRepository) : ViewModel() {
-    val products: LiveData<List<ProductItem>> = repository._products
-    val error: LiveData<String> = repository._error
+     val products: StateFlow<List<ProductItem>> = repository.products
+
+    private val _uiState: MutableStateFlow<UiState<List<ProductItem>>> = MutableStateFlow(UiState.Loading)
+    val uiState: StateFlow<UiState<List<ProductItem>>>
+        get() = _uiState
 
     fun fetchProducts() {
+        if (_uiState.value is UiState.Success) return
+
         viewModelScope.launch {
-            repository.fetchData()
+            _uiState.value = UiState.Loading
+            try {
+                repository.fetchData()
+                _uiState.value = UiState.Success(products.value)
+            } catch (e: Exception) {
+                _uiState.value = UiState.Error(e.message.toString())
+            }
         }
     }
 
-    // ✅ ViewModel Factory di dalam ViewModel
     class Factory(private val repository: ProductRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ProductViewModel::class.java)) {

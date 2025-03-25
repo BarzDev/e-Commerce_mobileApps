@@ -3,7 +3,7 @@ package com.example.final_submission_jetpack_compose.data.remote.model
 data class ProductItem(
 	val id: Int,
 	val title: String,
-	val price: Double,
+	val price: Float,
 	val description: String,
 	val category: String,
 	val image: String,
@@ -11,7 +11,7 @@ data class ProductItem(
 )
 
 data class Rating(
-	val rate: Double,
+	val rate: Float,
 	val count: Int
 )
 

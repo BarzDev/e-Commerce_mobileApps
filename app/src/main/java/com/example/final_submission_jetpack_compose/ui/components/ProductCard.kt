@@ -26,25 +26,25 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.final_submission_jetpack_compose.R
+import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem
 
 
 @Composable
 fun ProductCard(
-    id: String,
-    title: String,
-    image: String,
-    price: String,
+    product: ProductItem,
 ) {
     val painter = rememberAsyncImagePainter(
         ImageRequest.Builder(LocalContext.current)
-            .data(image)
+            .data(product.image)
             .placeholder(R.drawable.ic_refresh_black)
             .error(R.drawable.ic_broken_image_black)
             .build()
@@ -69,7 +69,7 @@ fun ProductCard(
                         .clip(RoundedCornerShape(8.dp))
                 )
                 Text(
-                    text = price,
+                    text = stringResource(R.string.price, product.price),
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
@@ -89,14 +89,16 @@ fun ProductCard(
                     modifier = Modifier.size(20.dp)
                 )
                 Text(
-                    text = "4.8",
+                    text = product.rating.rate.toString(),
                     style = MaterialTheme.typography.bodySmall)
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = title,
+                text = product.title,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(4.dp)
+                modifier = Modifier.padding(4.dp),
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
@@ -106,10 +108,10 @@ fun ProductCard(
 @Composable
 @Preview(showBackground = true)
 fun ProductCardPreview() {
-    ProductCard(
-        id= "1",
-        title = "Product 1",
-        image = "https://sample-image.jpg",
-        price = "$.500"
-    )
+//    ProductCard(
+//        id= "1",
+//        title = "Product 1",
+//        image = "https://sample-image.jpg",
+//        price = "$.500"
+//    )
 }

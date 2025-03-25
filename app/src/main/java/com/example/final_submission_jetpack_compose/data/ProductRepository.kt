@@ -4,19 +4,18 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem
 import com.example.final_submission_jetpack_compose.data.remote.retrofit.ApiConfig
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class ProductRepository {
-    val _products = MutableLiveData<List<ProductItem>>()
-    val _error = MutableLiveData<String>()
+    private val _products = MutableStateFlow<List<ProductItem>>(emptyList())
+    val products = _products.asStateFlow()
 
 
-    suspend fun fetchData(){
-        try {
+    suspend fun fetchData() {
             val response = ApiConfig.getApiService().getProducts()
-            _products.postValue(response)
-        } catch (e: Exception) {
-            _error.postValue("Terjadi kesalahan: ${e.message}")
-            Log.e("ProductRepository", "Error: ${e.message}", e)
-        }
+            _products.value = response
+            Log.i("ProductRepository", "Response: $response")
+
     }
 }

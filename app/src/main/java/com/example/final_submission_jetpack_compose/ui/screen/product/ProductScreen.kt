@@ -1,57 +1,72 @@
 package com.example.final_submission_jetpack_compose.ui.screen.product
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import com.example.final_submission_jetpack_compose.R
-
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.final_submission_jetpack_compose.data.ProductRepository
+import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem
+import com.example.final_submission_jetpack_compose.ui.common.UiState
+import com.example.final_submission_jetpack_compose.ui.components.ErrorScreen
+import com.example.final_submission_jetpack_compose.ui.components.Loading
+import com.example.final_submission_jetpack_compose.ui.components.ProductCard
 
 @Composable
 fun ProductScreen(
-    modifier: Modifier = Modifier
+    viewModel: ProductViewModel = viewModel(factory = ProductViewModel.Factory(ProductRepository()))
 ) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(stringResource(R.string.menu_product))
+    val uiState by viewModel.uiState.collectAsState(initial = UiState.Loading)
+    val products by viewModel.products.collectAsState(initial = emptyList())
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchProducts()
+    }
+
+    when (uiState) {
+        is UiState.Loading -> {
+            Loading()
+        }
+
+        is UiState.Success -> {
+            ProductList(products)
+        }
+
+        is UiState.Error -> {
+            val errorMessage = (uiState as UiState.Error).errorMessage
+            ErrorScreen(errorMessage) { viewModel.fetchProducts() }
+        }
     }
 }
 
+@Composable
+fun ProductList(products: List<ProductItem>,  modifier: Modifier = Modifier,) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = modifier
+    ) {
+        items(products) { product ->
+            ProductCard(product)
+        }
+    }
+}
 
-//@Composable
-//fun ProductScreen(viewModel: ProductViewModel) {
-//    val products by viewModel.products.observeAsState(emptyList()) // 🔹 Gunakan observeAsState
-//    val error by viewModel.error.observeAsState()
-//
-//    LaunchedEffect(Unit) {
-//        viewModel.fetchProducts()
-//    }
-//
-//    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//        Column(modifier = Modifier.padding(innerPadding)) {
-//            if (error != null) {
-//                Text("Error: ${error!!}", color = MaterialTheme.colorScheme.error)
-//            } else if (products.isEmpty()) {
-//                Text("Memuat data...")
-//            } else {
-//                products.forEach { product ->
-//                    Text(text = product.title) // 🔹 Produk akan tampil tanpa error
-//                }
-//            }
-//        }
-//    }
-//}
-//
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun MainScreenPreview() {
-//    Final_Submission_Jetpack_ComposeTheme {
-//        ProductScreen(viewModel = ProductViewModel(ProductRepository()))
-//    }
-//}
