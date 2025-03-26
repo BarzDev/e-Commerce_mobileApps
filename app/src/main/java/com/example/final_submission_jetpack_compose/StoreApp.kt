@@ -33,6 +33,10 @@ import com.example.final_submission_jetpack_compose.ui.navigation.Screen
 import com.example.final_submission_jetpack_compose.ui.screen.about.AboutScreen
 import com.example.final_submission_jetpack_compose.ui.screen.cart.CartScreen
 import com.example.final_submission_jetpack_compose.ui.screen.product.ProductScreen
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBarItemDefaults
+
 
 @Composable
 fun StoreApp(
@@ -105,7 +109,7 @@ fun BottomBar(
                 icon = {
                     Icon(
                         imageVector = item.icon,
-                        contentDescription = item.title
+                        contentDescription = item.title,
                     )
                 },
                 label = { Text(item.title) },
@@ -118,7 +122,13 @@ fun BottomBar(
                         restoreState = true
                         launchSingleTop = true
                     }
-                }
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                ),
             )
         }
     }
@@ -134,6 +144,10 @@ fun TopBar(
     TopAppBar(
         title = { Text(stringResource(R.string.app_name)) },
         modifier = modifier,
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary
+        ),
         actions = {
             Box(
                 contentAlignment = Alignment.Center
@@ -153,7 +167,8 @@ fun TopBar(
                     Icon(
                         imageVector = Icons.Default.AccountCircle,
                         contentDescription = "Profile",
-                        modifier = Modifier.size(30.dp)
+                        modifier = Modifier.size(30.dp),
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }

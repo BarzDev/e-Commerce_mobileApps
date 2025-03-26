@@ -15,7 +15,6 @@ class ProductRepository {
     suspend fun fetchData() {
             val response = ApiConfig.getApiService().getProducts()
             _products.value = response
-            Log.i("ProductRepository", "Response: $response")
-
+//            Log.i("ProductRepository", "Response: $response")
     }
 }

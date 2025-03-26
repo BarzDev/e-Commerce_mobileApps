@@ -36,6 +36,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.final_submission_jetpack_compose.R
 import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem
+import com.example.final_submission_jetpack_compose.data.remote.model.Rating
 
 
 @Composable
@@ -75,7 +76,7 @@ fun ProductCard(
                     fontSize = 14.sp,
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
-                        .background(Color.Black.copy(alpha = 0.7f), RoundedCornerShape(4.dp))
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.7f), RoundedCornerShape(4.dp))
                         .padding(4.dp)
                 )
             }
@@ -90,6 +91,7 @@ fun ProductCard(
                 )
                 Text(
                     text = product.rating.rate.toString(),
+                    fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.bodySmall)
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -97,7 +99,7 @@ fun ProductCard(
                 text = product.title,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(4.dp),
-                maxLines = 3,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
         }
@@ -108,10 +110,14 @@ fun ProductCard(
 @Composable
 @Preview(showBackground = true)
 fun ProductCardPreview() {
-//    ProductCard(
-//        id= "1",
-//        title = "Product 1",
-//        image = "https://sample-image.jpg",
-//        price = "$.500"
-//    )
+    val dummyProduct = ProductItem(
+        id = 1,
+        title = "Product 1",
+        image = "https://product1.jpg",
+        price = 5000F,
+        description = "description product",
+        category = "Category A",
+        rating = Rating(rate = 4.5F, count = 100)
+    )
+    ProductCard(dummyProduct)
 }
