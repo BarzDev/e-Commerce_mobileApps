@@ -42,6 +42,7 @@ import com.example.final_submission_jetpack_compose.data.remote.model.Rating
 @Composable
 fun ProductCard(
     product: ProductItem,
+    modifier: Modifier = Modifier,
 ) {
     val painter = rememberAsyncImagePainter(
         ImageRequest.Builder(LocalContext.current)
@@ -55,7 +56,7 @@ fun ProductCard(
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        modifier = Modifier.padding(8.dp)
+        modifier = modifier.padding(8.dp)
     ) {
         Column(
             modifier = Modifier.padding(12.dp)

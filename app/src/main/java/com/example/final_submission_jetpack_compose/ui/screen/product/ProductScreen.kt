@@ -2,19 +2,9 @@ package com.example.final_submission_jetpack_compose.ui.screen.product
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -31,7 +21,8 @@ import com.example.final_submission_jetpack_compose.ui.components.ProductCard
 
 @Composable
 fun ProductScreen(
-    viewModel: ProductViewModel = viewModel(factory = ProductViewModel.Factory(ProductRepository()))
+    viewModel: ProductViewModel = viewModel(factory = ProductViewModel.Factory(ProductRepository())),
+    navigateToDetail: (Int) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState(initial = UiState.Loading)
     val products by viewModel.products.collectAsState(initial = emptyList())
@@ -46,7 +37,10 @@ fun ProductScreen(
         }
 
         is UiState.Success -> {
-            ProductList(products)
+            ProductList(
+                products,
+                navigateToDetail = navigateToDetail
+            )
         }
 
         is UiState.Error -> {
@@ -57,7 +51,11 @@ fun ProductScreen(
 }
 
 @Composable
-fun ProductList(products: List<ProductItem>,  modifier: Modifier = Modifier,) {
+fun ProductList(
+    products: List<ProductItem>,
+    modifier: Modifier = Modifier,
+    navigateToDetail: (Int) -> Unit,
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -65,7 +63,11 @@ fun ProductList(products: List<ProductItem>,  modifier: Modifier = Modifier,) {
         modifier = modifier
     ) {
         items(products) { product ->
-            ProductCard(product)
+            ProductCard(
+                product,
+                modifier = Modifier.clickable {
+                    navigateToDetail(product.id)
+                })
         }
     }
 }

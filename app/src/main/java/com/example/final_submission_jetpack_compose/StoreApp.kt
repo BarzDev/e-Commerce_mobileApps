@@ -36,6 +36,9 @@ import com.example.final_submission_jetpack_compose.ui.screen.product.ProductScr
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.example.final_submission_jetpack_compose.ui.screen.product_detail.ProductDetailScreen
 
 
 @Composable
@@ -48,12 +51,12 @@ fun StoreApp(
 
     Scaffold(
         topBar = {
-            if (currentRoute != Screen.About.route) {
+            if (currentRoute !in listOf(Screen.About.route, Screen.ProductDetail.route)) {
                 TopBar(navController)
             }
         },
         bottomBar = {
-            if (currentRoute != Screen.About.route) {
+            if (currentRoute !in listOf(Screen.About.route, Screen.ProductDetail.route)) {
                 BottomBar(navController)
             }
         },
@@ -65,7 +68,9 @@ fun StoreApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(Screen.Product.route) {
-                ProductScreen()
+                ProductScreen(
+                    navigateToDetail = { productId -> navController.navigate(Screen.ProductDetail.createRoute(productId)) },
+                )
             }
             composable(Screen.Cart.route) {
                 CartScreen()
@@ -76,6 +81,12 @@ fun StoreApp(
                         navController.navigateUp()
                     },
                 )
+            }
+            composable(
+                route = Screen.ProductDetail.route,
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
+            ) {
+                ProductDetailScreen()
             }
         }
     }
