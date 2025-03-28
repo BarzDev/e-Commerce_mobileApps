@@ -123,6 +123,6 @@ fun ProductCounterPreview() {
         orderCount = 0,
         onProductIncreased = {},
         onProductDecreased = {},
-                onProductDeleted = {}
+        onProductDeleted = {}
     )
 }

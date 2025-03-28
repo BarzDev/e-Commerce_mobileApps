@@ -1,4 +1,5 @@
 package com.example.final_submission_jetpack_compose.data.remote.retrofit
+
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -7,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiConfig {
 
-    companion object{
+    companion object {
 
         private const val BASE_URL = "https://fakestoreapi.com/"
 

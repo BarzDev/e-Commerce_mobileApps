@@ -1,5 +1,8 @@
 package com.example.final_submission_jetpack_compose
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -10,11 +13,14 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -24,22 +30,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.final_submission_jetpack_compose.ui.navigation.NavigationItem
 import com.example.final_submission_jetpack_compose.ui.navigation.Screen
 import com.example.final_submission_jetpack_compose.ui.screen.about.AboutScreen
 import com.example.final_submission_jetpack_compose.ui.screen.cart.CartScreen
 import com.example.final_submission_jetpack_compose.ui.screen.product.ProductScreen
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
 import com.example.final_submission_jetpack_compose.ui.screen.product_detail.ProductDetailScreen
-
 
 @Composable
 fun StoreApp(
@@ -67,30 +69,72 @@ fun StoreApp(
             startDestination = Screen.Product.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(Screen.Product.route) {
+            composable(
+                route = Screen.Product.route,
+                enterTransition = { slideInHorizontally(animationSpec = tween(300)) },
+                exitTransition = { slideOutHorizontally(animationSpec = tween(300)) }
+            ) {
                 ProductScreen(
-                    navigateToDetail = { productId -> navController.navigate(Screen.ProductDetail.createRoute(productId)) },
+                    navigateToDetail = { productId ->
+                        navController.navigate(Screen.ProductDetail.createRoute(productId))
+                    }
                 )
             }
-            composable(Screen.Cart.route) {
+
+            composable(
+                route = Screen.Cart.route,
+                enterTransition = {
+                    slideInHorizontally(
+                        animationSpec = tween(300),
+                        initialOffsetX = { it })
+                },
+                exitTransition = {
+                    slideOutHorizontally(
+                        animationSpec = tween(300),
+                        targetOffsetX = { -it })
+                }
+            ) {
                 CartScreen()
             }
-            composable(Screen.About.route) {
+
+            composable(
+                route = Screen.About.route,
+                enterTransition = {
+                    slideInHorizontally(
+                        animationSpec = tween(300),
+                        initialOffsetX = { it })
+                },
+                exitTransition = {
+                    slideOutHorizontally(
+                        animationSpec = tween(300),
+                        targetOffsetX = { -it })
+                }
+            ) {
                 AboutScreen(
-                    navigateBack = {
-                        navController.navigateUp()
-                    },
+                    navigateBack = { navController.navigateUp() },
                 )
             }
+
             composable(
                 route = Screen.ProductDetail.route,
-                arguments = listOf(navArgument("id") { type = NavType.IntType })
+                arguments = listOf(navArgument("id") { type = NavType.IntType }),
+                enterTransition = {
+                    slideInHorizontally(
+                        animationSpec = tween(300),
+                        initialOffsetX = { it })
+                },
+                exitTransition = {
+                    slideOutHorizontally(
+                        animationSpec = tween(300),
+                        targetOffsetX = { -it })
+                }
             ) {
                 ProductDetailScreen()
             }
         }
     }
 }
+
 
 @Composable
 fun BottomBar(

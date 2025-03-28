@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun ErrorScreen(errorMessage: String, onRetry: () -> Unit) {
+fun ErrorHandlerComponent(errorMessage: String, onRetry: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

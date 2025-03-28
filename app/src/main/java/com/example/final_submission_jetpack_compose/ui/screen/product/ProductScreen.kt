@@ -15,8 +15,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.final_submission_jetpack_compose.data.ProductRepository
 import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem
 import com.example.final_submission_jetpack_compose.ui.common.UiState
-import com.example.final_submission_jetpack_compose.ui.components.ErrorScreen
-import com.example.final_submission_jetpack_compose.ui.components.Loading
+import com.example.final_submission_jetpack_compose.ui.components.ErrorHandlerComponent
+import com.example.final_submission_jetpack_compose.ui.components.LoadingComponent
 import com.example.final_submission_jetpack_compose.ui.components.ProductCard
 
 @Composable
@@ -33,7 +33,7 @@ fun ProductScreen(
 
     when (uiState) {
         is UiState.Loading -> {
-            Loading()
+            LoadingComponent()
         }
 
         is UiState.Success -> {
@@ -44,8 +44,8 @@ fun ProductScreen(
         }
 
         is UiState.Error -> {
-            val errorMessage = (uiState as UiState.Error).errorMessage
-            ErrorScreen(errorMessage) { viewModel.fetchProducts() }
+            val errorMessage = "Koneksi Bermasalah"
+            ErrorHandlerComponent(errorMessage) { viewModel.fetchProducts() }
         }
     }
 }

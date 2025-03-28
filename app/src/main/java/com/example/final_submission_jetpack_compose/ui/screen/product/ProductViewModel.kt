@@ -1,6 +1,5 @@
 package com.example.final_submission_jetpack_compose.ui.screen.product
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -12,11 +11,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ProductViewModel(private val repository: ProductRepository) : ViewModel() {
-     val products: StateFlow<List<ProductItem>> = repository.products
+    val products: StateFlow<List<ProductItem>> = repository.products
 
-    private val _uiState: MutableStateFlow<UiState<List<ProductItem>>> = MutableStateFlow(UiState.Loading)
-    val uiState: StateFlow<UiState<List<ProductItem>>>
-        get() = _uiState
+    private val _uiState: MutableStateFlow<UiState<List<ProductItem>>> =
+        MutableStateFlow(UiState.Loading)
+    val uiState: StateFlow<UiState<List<ProductItem>>> get() = _uiState
 
     fun fetchProducts() {
         if (_uiState.value is UiState.Success) return

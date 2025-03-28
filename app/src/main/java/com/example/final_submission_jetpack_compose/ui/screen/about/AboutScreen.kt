@@ -58,5 +58,5 @@ fun AppBar(
 @Preview(showBackground = true)
 @Composable
 fun AboutScreenPreview() {
-    AboutScreen(navigateBack={})
+    AboutScreen(navigateBack = {})
 }

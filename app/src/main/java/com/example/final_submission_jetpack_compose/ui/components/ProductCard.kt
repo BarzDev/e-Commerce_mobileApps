@@ -77,7 +77,10 @@ fun ProductCard(
                     fontSize = 14.sp,
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
-                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.7f), RoundedCornerShape(4.dp))
+                        .background(
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.7f),
+                            RoundedCornerShape(4.dp)
+                        )
                         .padding(4.dp)
                 )
             }
@@ -93,7 +96,8 @@ fun ProductCard(
                 Text(
                     text = product.rating.rate.toString(),
                     fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodySmall)
+                    style = MaterialTheme.typography.bodySmall
+                )
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(

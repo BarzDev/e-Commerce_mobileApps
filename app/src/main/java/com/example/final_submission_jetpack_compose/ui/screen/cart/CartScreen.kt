@@ -12,12 +12,12 @@ import com.example.final_submission_jetpack_compose.R
 @Composable
 fun CartScreen(
     modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
     ) {
-        Box(
-            modifier = modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(stringResource(R.string.menu_cart))
-        }
+        Text(stringResource(R.string.menu_cart))
     }
+}
 
