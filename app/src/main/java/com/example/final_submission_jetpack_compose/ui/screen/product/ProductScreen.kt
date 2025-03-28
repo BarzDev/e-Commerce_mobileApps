@@ -14,6 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.final_submission_jetpack_compose.data.ProductRepository
 import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem
+import com.example.final_submission_jetpack_compose.di.Injection
+import com.example.final_submission_jetpack_compose.ui.ViewModelFactory
 import com.example.final_submission_jetpack_compose.ui.common.UiState
 import com.example.final_submission_jetpack_compose.ui.components.ErrorHandlerComponent
 import com.example.final_submission_jetpack_compose.ui.components.LoadingComponent
@@ -21,7 +23,9 @@ import com.example.final_submission_jetpack_compose.ui.components.ProductCard
 
 @Composable
 fun ProductScreen(
-    viewModel: ProductViewModel = viewModel(factory = ProductViewModel.Factory(ProductRepository())),
+    viewModel: ProductViewModel = viewModel(
+        factory = ViewModelFactory(Injection.provideRepository())
+    ),
     navigateToDetail: (Int) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState(initial = UiState.Loading)

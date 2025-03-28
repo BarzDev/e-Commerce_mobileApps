@@ -15,4 +15,16 @@ class ProductRepository {
         _products.value = response
 //            Log.i("ProductRepository", "Response: $response")
     }
+
+    companion object {
+        @Volatile
+        private var instance: ProductRepository? = null
+
+        fun getInstance(): ProductRepository =
+            instance ?: synchronized(this) {
+                ProductRepository().apply {
+                    instance = this
+                }
+            }
+    }
 }
