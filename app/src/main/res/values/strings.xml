@@ -4,5 +4,8 @@
     <string name="menu_cart">Cart</string>
     <string name="menu_about">About</string>
     <string name="price">$ %.2f</string>
-    <string name="checkout">"Checkout successfully"</string>
+    <string name="checkout_msg">"Checkout successfully"</string>
+
+    <string name="creator_name">Fakhrul Ghozali Akbar S.</string>
+    <string name="creator_email">fakhrul@raharja.info</string>
 </resources>
