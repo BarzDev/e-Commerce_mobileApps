@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.final_submission_jetpack_compose.data.ProductRepository
 import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem
 import com.example.final_submission_jetpack_compose.di.Injection
 import com.example.final_submission_jetpack_compose.ui.ViewModelFactory
@@ -35,7 +34,7 @@ fun ProductScreen(
         viewModel.fetchProducts()
     }
 
-    when (uiState) {
+    when (val state = uiState) {
         is UiState.Loading -> {
             LoadingComponent()
         }
@@ -48,8 +47,7 @@ fun ProductScreen(
         }
 
         is UiState.Error -> {
-            val errorMessage = "Koneksi Bermasalah"
-            ErrorHandlerComponent(errorMessage) { viewModel.fetchProducts() }
+            ErrorHandlerComponent(state.errorMessage) { viewModel.fetchProducts() }
         }
     }
 }

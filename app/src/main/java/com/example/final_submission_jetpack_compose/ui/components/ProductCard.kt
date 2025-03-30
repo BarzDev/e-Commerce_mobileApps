@@ -85,20 +85,14 @@ fun ProductCard(
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Spacer(modifier = Modifier.width(2.dp))
-                Icon(
-                    imageVector = Icons.Default.Star,
-                    contentDescription = "Star",
-                    tint = Color.Yellow,
-                    modifier = Modifier.size(20.dp)
-                )
-                Text(
-                    text = product.rating.rate.toString(),
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
+            RatingComponent(
+                product = product,
+                iconSize = 20,
+                gap = 4,
+                fontWeight = FontWeight.Normal,
+                textStyle = MaterialTheme.typography.bodySmall,
+            )
+
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = product.title,

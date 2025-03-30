@@ -26,7 +26,8 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
                 repository.fetchData()
                 _uiState.value = UiState.Success(products.value)
             } catch (e: Exception) {
-                _uiState.value = UiState.Error(e.message.toString())
+                val msg = "Failed to get product"
+                _uiState.value = UiState.Error(msg)
             }
         }
     }

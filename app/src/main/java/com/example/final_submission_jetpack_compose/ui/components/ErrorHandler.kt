@@ -24,7 +24,7 @@ fun ErrorHandlerComponent(errorMessage: String, onRetry: () -> Unit) {
             Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
             Spacer(modifier = Modifier.height(8.dp))
             Button(onClick = onRetry) {
-                Text("Coba Lagi")
+                Text("Retry")
             }
         }
     }

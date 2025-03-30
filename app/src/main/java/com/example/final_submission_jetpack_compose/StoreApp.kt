@@ -106,7 +106,7 @@ fun StoreApp(
                 },
                 exitTransition = {
                     slideOutHorizontally(
-                        animationSpec = tween(300),
+                        animationSpec = tween(100),
                         targetOffsetX = { -it })
                 }
             ) {
@@ -125,11 +125,14 @@ fun StoreApp(
                 },
                 exitTransition = {
                     slideOutHorizontally(
-                        animationSpec = tween(300),
+                        animationSpec = tween(100),
                         targetOffsetX = { -it })
                 }
             ) {
-                ProductDetailScreen()
+                ProductDetailScreen(
+                    id = it.arguments?.getInt("id") ?: 0,
+                    navigateBack = { navController.navigateUp() },
+                )
             }
         }
     }

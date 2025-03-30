@@ -1,22 +1,47 @@
 package com.example.final_submission_jetpack_compose.ui.screen.product_detail
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import com.example.final_submission_jetpack_compose.R
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.final_submission_jetpack_compose.di.Injection
+import com.example.final_submission_jetpack_compose.ui.ViewModelFactory
+import com.example.final_submission_jetpack_compose.ui.common.UiState
+import com.example.final_submission_jetpack_compose.ui.components.ErrorHandlerComponent
+import com.example.final_submission_jetpack_compose.ui.components.LoadingComponent
+import com.example.final_submission_jetpack_compose.ui.components.ProductDetail
 
 @Composable
 fun ProductDetailScreen(
-    modifier: Modifier = Modifier
+    viewModel: ProductDetailViewModel = viewModel(
+        factory = ViewModelFactory(Injection.provideRepository())
+    ),
+    id: Int,
+    navigateBack: () -> Unit,
 ) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(stringResource(R.string.app_name))
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(id) {
+        viewModel.getProductById(id)
+    }
+
+    when (val state = uiState) {
+        is UiState.Loading -> {
+            LoadingComponent()
+        }
+
+        is UiState.Success -> {
+            ProductDetail(
+                product = state.data,
+                navigateBack = navigateBack
+            )
+        }
+
+        is UiState.Error -> {
+            ErrorHandlerComponent(state.errorMessage) { viewModel.getProductById(id) }
+        }
     }
 }
+
+

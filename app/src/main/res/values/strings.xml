@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Bar\'z Store</string>
     <string name="menu_product">Product</string>
-    <string name="menu_cart">Keranjang</string>
+    <string name="menu_cart">Cart</string>
     <string name="menu_about">About</string>
     <string name="price">$ %.2f</string>
+    <string name="checkout">"Checkout successfully"</string>
 </resources>
