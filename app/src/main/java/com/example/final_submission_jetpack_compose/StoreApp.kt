@@ -3,12 +3,13 @@ package com.example.final_submission_jetpack_compose
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.LocalMall
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -23,8 +24,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,6 +40,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.final_submission_jetpack_compose.ui.components.SearchBar
 import com.example.final_submission_jetpack_compose.ui.navigation.NavigationItem
 import com.example.final_submission_jetpack_compose.ui.navigation.Screen
 import com.example.final_submission_jetpack_compose.ui.screen.about.AboutScreen
@@ -54,7 +59,7 @@ fun StoreApp(
     Scaffold(
         topBar = {
             if (currentRoute !in listOf(Screen.About.route, Screen.ProductDetail.route)) {
-                TopBar(navController)
+                TopBar(navController, showSearchBar = currentRoute == Screen.Product.route)
             }
         },
         bottomBar = {
@@ -197,38 +202,61 @@ fun BottomBar(
 @Composable
 fun TopBar(
     navController: NavHostController,
+    showSearchBar: Boolean = false,
     modifier: Modifier = Modifier
 ) {
+    var query by remember { mutableStateOf("") }
+    var isSearching by remember { mutableStateOf(false) }
+
     TopAppBar(
-        title = { Text(stringResource(R.string.app_name)) },
+        title = {
+            if (isSearching && showSearchBar) {
+                SearchBar(
+                    query = query,
+                    onQueryChange = { query = it },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            } else {
+                Text(
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+
+        },
         modifier = modifier,
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary
         ),
         actions = {
-            Box(
-                contentAlignment = Alignment.Center
-            ) {
-                IconButton(
-                    onClick = {
-                        navController.navigate(Screen.About.route) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            restoreState = true
-                            launchSingleTop = true
-                        }
-                    },
-                    modifier = Modifier.size(38.dp)
-                ) {
+            if (showSearchBar) {
+                IconButton(onClick = { isSearching = !isSearching }) {
                     Icon(
-                        imageVector = Icons.Default.AccountCircle,
-                        contentDescription = "Profile",
-                        modifier = Modifier.size(30.dp),
-                        tint = MaterialTheme.colorScheme.onPrimary
+                        Icons.Default.Search,
+                        contentDescription = "Search",
+                        tint = Color.White
                     )
                 }
+            }
+            IconButton(
+                onClick = {
+                    navController.navigate(Screen.About.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        restoreState = true
+                        launchSingleTop = true
+                    }
+                },
+                modifier = Modifier.size(38.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.AccountCircle,
+                    contentDescription = "Profile",
+                    modifier = Modifier.size(30.dp),
+                    tint = MaterialTheme.colorScheme.onPrimary
+                )
             }
         }
     )
