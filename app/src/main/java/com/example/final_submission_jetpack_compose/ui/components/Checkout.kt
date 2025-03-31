@@ -2,7 +2,6 @@ package com.example.final_submission_jetpack_compose.ui.components
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
@@ -32,7 +30,7 @@ import com.example.final_submission_jetpack_compose.R
 @Composable
 fun CheckoutComponent(
     modifier: Modifier = Modifier,
-    addCart : () -> Unit
+    addCart: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -58,7 +56,7 @@ fun CheckoutComponent(
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
 
-                )
+                    )
                 Spacer(modifier = Modifier.width(4.dp))
                 Icon(
                     imageVector = Icons.Default.ShoppingCart,
@@ -74,14 +72,16 @@ fun CheckoutComponent(
                 .fillMaxHeight()
                 .background(MaterialTheme.colorScheme.primary)
                 .clickable {
-                    Toast.makeText(context, R.string.checkout_msg, Toast.LENGTH_SHORT).show()
+                    Toast
+                        .makeText(context, R.string.checkout_msg, Toast.LENGTH_SHORT)
+                        .show()
                 },
             contentAlignment = Alignment.Center,
         ) {
             Text(
-                text = "Checkout",
+                text = "Checkout Now",
                 color = Color.White,
-                fontSize = 24.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
             )

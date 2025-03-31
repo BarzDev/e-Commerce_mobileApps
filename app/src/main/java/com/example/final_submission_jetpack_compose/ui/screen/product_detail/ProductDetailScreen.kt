@@ -35,7 +35,12 @@ fun ProductDetailScreen(
 
         is UiState.Success -> {
             ProductDetail(
-                product = state.data,
+                title = state.data.title,
+                image = state.data.image,
+                price = state.data.price.toString(),
+                description = state.data.description,
+                rate = state.data.rating.rate.toString(),
+                count = state.data.rating.count.toString(),
                 navigateBack = navigateBack,
                 addCart = { viewModel.addToCart(product = state.data, context = context) }
             )

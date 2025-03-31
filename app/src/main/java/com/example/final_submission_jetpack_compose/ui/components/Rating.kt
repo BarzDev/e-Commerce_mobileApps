@@ -24,7 +24,8 @@ import com.example.final_submission_jetpack_compose.data.remote.model.Rating
 
 @Composable
 fun RatingComponent(
-    product: ProductItem,
+    rate: String,
+    count: String,
     iconSize: Int,
     gap: Int,
     fontWeight: FontWeight,
@@ -44,7 +45,7 @@ fun RatingComponent(
                 modifier = Modifier.size(iconSize.dp)
             )
             Text(
-                text = product.rating.rate.toString(),
+                text = rate,
                 fontWeight = fontWeight,
                 style = textStyle
             )
@@ -59,7 +60,7 @@ fun RatingComponent(
                 modifier = Modifier.size(iconSize.dp)
             )
             Text(
-                text = product.rating.count.toString(),
+                text = count,
                 fontWeight = fontWeight,
                 style = textStyle
             )
@@ -83,7 +84,7 @@ fun RatingComponentPreview() {
     RatingComponent(
         gap = 16,
         iconSize = 20,
-        product = dummyProduct,
+        rate = "4.5F", count = "100",
         fontWeight = FontWeight.Bold,
         textStyle = MaterialTheme.typography.bodyMedium
     )

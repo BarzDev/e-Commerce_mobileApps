@@ -4,19 +4,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,18 +30,20 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.final_submission_jetpack_compose.R
-import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem
-import com.example.final_submission_jetpack_compose.data.remote.model.Rating
 
 
 @Composable
 fun ProductCard(
-    product: ProductItem,
+    title: String,
+    image: String,
+    price: String,
+    count: String,
+    rate: String,
     modifier: Modifier = Modifier,
 ) {
     val painter = rememberAsyncImagePainter(
         ImageRequest.Builder(LocalContext.current)
-            .data(product.image)
+            .data(image)
             .placeholder(R.drawable.ic_refresh_black)
             .error(R.drawable.ic_broken_image_black)
             .build()
@@ -71,7 +68,7 @@ fun ProductCard(
                         .clip(RoundedCornerShape(8.dp))
                 )
                 Text(
-                    text = stringResource(R.string.price, product.price),
+                    text = stringResource(R.string.price, price),
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
@@ -86,7 +83,9 @@ fun ProductCard(
             }
             Spacer(modifier = Modifier.height(8.dp))
             RatingComponent(
-                product = product,
+                rate = rate,
+                count = count,
+
                 iconSize = 20,
                 gap = 4,
                 fontWeight = FontWeight.Normal,
@@ -95,7 +94,7 @@ fun ProductCard(
 
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = product.title,
+                text = title,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(4.dp),
                 maxLines = 2,
@@ -109,14 +108,11 @@ fun ProductCard(
 @Composable
 @Preview(showBackground = true)
 fun ProductCardPreview() {
-    val dummyProduct = ProductItem(
-        id = 1,
+    ProductCard(
         title = "Product 1",
         image = "https://product1.jpg",
-        price = 5000F,
-        description = "description product",
-        category = "Category A",
-        rating = Rating(rate = 4.5F, count = 100)
+        price = "5000",
+        rate = "4.5",
+        count = " 100"
     )
-    ProductCard(dummyProduct)
 }

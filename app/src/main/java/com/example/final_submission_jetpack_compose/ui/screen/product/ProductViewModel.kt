@@ -1,7 +1,6 @@
 package com.example.final_submission_jetpack_compose.ui.screen.product
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.final_submission_jetpack_compose.data.ProductRepository
 import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem

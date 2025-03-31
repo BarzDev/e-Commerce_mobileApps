@@ -28,7 +28,7 @@ fun ProductScreen(
     navigateToDetail: (Int) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState(initial = UiState.Loading)
-    val products by viewModel.products.collectAsState(initial = emptyList())
+//    val products by viewModel.products.collectAsState(initial = emptyList())
 
     LaunchedEffect(Unit) {
         viewModel.fetchProducts()
@@ -41,7 +41,7 @@ fun ProductScreen(
 
         is UiState.Success -> {
             ProductList(
-                products,
+                products = state.data,
                 navigateToDetail = navigateToDetail
             )
         }
@@ -66,10 +66,15 @@ fun ProductList(
     ) {
         items(products) { product ->
             ProductCard(
-                product,
+                title = product.title,
+                image = product.image,
+                price = product.price.toString(),
+                count = product.rating.count.toString(),
+                rate = product.rating.rate.toString(),
                 modifier = Modifier.clickable {
                     navigateToDetail(product.id)
-                })
+                },
+            )
         }
     }
 }

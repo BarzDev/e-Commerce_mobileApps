@@ -36,20 +36,23 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.final_submission_jetpack_compose.R
-import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem
-import com.example.final_submission_jetpack_compose.data.remote.model.Rating
 import com.example.final_submission_jetpack_compose.ui.theme.SoftWhite
 
 @Composable
 fun ProductDetail(
-    product: ProductItem,
+    title: String,
+    image: String,
+    price: String,
+    description: String,
+    rate: String,
+    count: String,
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
-    addCart:()-> Unit
+    addCart: () -> Unit
 ) {
     val painter = rememberAsyncImagePainter(
         ImageRequest.Builder(LocalContext.current)
-            .data(product.image)
+            .data(image)
             .placeholder(R.drawable.ic_refresh_black)
             .error(R.drawable.ic_broken_image_black)
             .build()
@@ -104,14 +107,15 @@ fun ProductDetail(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RatingComponent(
-                    product,
+                    rate = rate,
+                    count = count,
                     gap = 16,
                     iconSize = 20,
                     fontWeight = FontWeight.Bold,
                     textStyle = MaterialTheme.typography.bodyLarge,
                 )
                 Text(
-                    text = stringResource(R.string.price, product.price),
+                    text = stringResource(R.string.price, price),
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                     color = Color.White,
@@ -129,7 +133,7 @@ fun ProductDetail(
 
             Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp)) {
                 Text(
-                    text = product.title,
+                    text = title,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.titleLarge,
@@ -142,7 +146,7 @@ fun ProductDetail(
                 )
 
                 Text(
-                    text = product.description,
+                    text = description,
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Justify,
                     lineHeight = 20.sp
@@ -152,7 +156,7 @@ fun ProductDetail(
 
         }
         CheckoutComponent(
-            addCart = {addCart()},
+            addCart = { addCart() },
         )
     }
 
@@ -161,14 +165,13 @@ fun ProductDetail(
 @Composable
 @Preview(showBackground = true)
 fun ProductDetailPreview() {
-    val dummyProduct = ProductItem(
-        id = 1,
+    ProductDetail(
         title = "Product 1",
         image = "https://product1.jpg",
-        price = 5000F,
+        price = "5000F",
         description = "description product",
-        category = "Category A",
-        rating = Rating(rate = 4.5F, count = 100)
-    )
-    ProductDetail(dummyProduct, navigateBack = {}, addCart = {})
+        rate = "4.5F",
+        count = "100",
+        navigateBack = {},
+        addCart = {})
 }
