@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.final_submission_jetpack_compose.di.Injection
 import com.example.final_submission_jetpack_compose.ui.ViewModelFactory
@@ -20,6 +21,7 @@ fun ProductDetailScreen(
     id: Int,
     navigateBack: () -> Unit,
 ) {
+    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(id) {
@@ -34,7 +36,8 @@ fun ProductDetailScreen(
         is UiState.Success -> {
             ProductDetail(
                 product = state.data,
-                navigateBack = navigateBack
+                navigateBack = navigateBack,
+                addCart = { viewModel.addToCart(product = state.data, context = context) }
             )
         }
 

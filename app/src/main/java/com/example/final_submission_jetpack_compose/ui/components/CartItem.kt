@@ -50,7 +50,7 @@ fun CartItem(
         Image(
             painter = painter,
             contentDescription = null,
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.Fit,
             modifier = Modifier
                 .size(90.dp)
                 .clip(RoundedCornerShape(8.dp))
@@ -63,7 +63,7 @@ fun CartItem(
         ) {
             Text(
                 text = title,
-                maxLines = 3,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.ExtraBold

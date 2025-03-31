@@ -45,6 +45,7 @@ fun ProductDetail(
     product: ProductItem,
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
+    addCart:()-> Unit
 ) {
     val painter = rememberAsyncImagePainter(
         ImageRequest.Builder(LocalContext.current)
@@ -150,7 +151,9 @@ fun ProductDetail(
 
 
         }
-        CheckoutComponent()
+        CheckoutComponent(
+            addCart = {addCart()},
+        )
     }
 
 }
@@ -167,5 +170,5 @@ fun ProductDetailPreview() {
         category = "Category A",
         rating = Rating(rate = 4.5F, count = 100)
     )
-    ProductDetail(dummyProduct, navigateBack = {})
+    ProductDetail(dummyProduct, navigateBack = {}, addCart = {})
 }

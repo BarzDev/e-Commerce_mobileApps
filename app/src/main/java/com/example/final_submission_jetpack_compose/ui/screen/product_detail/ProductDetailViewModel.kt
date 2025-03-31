@@ -1,5 +1,8 @@
 package com.example.final_submission_jetpack_compose.ui.screen.product_detail
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.final_submission_jetpack_compose.data.ProductRepository
@@ -12,6 +15,8 @@ import kotlinx.coroutines.launch
 class ProductDetailViewModel(private val repository: ProductRepository) : ViewModel() {
     private val _uiState: MutableStateFlow<UiState<ProductItem>> = MutableStateFlow(UiState.Loading)
     val uiState: StateFlow<UiState<ProductItem>> get() = _uiState
+
+    val cart = repository.cart
 
     fun getProductById(id: Int) {
         if (_uiState.value is UiState.Success) return
@@ -26,6 +31,13 @@ class ProductDetailViewModel(private val repository: ProductRepository) : ViewMo
                 _uiState.value = UiState.Error(msg)
             }
         }
+    }
+
+    fun addToCart(product: ProductItem, context: Context) = viewModelScope.launch {
+        repository.addToCart(product)
+        Toast.makeText(context, "Added to Cart", Toast.LENGTH_SHORT).show()
+        Log.d("addToCartVM", cart.value.toString())
+
     }
 }
 

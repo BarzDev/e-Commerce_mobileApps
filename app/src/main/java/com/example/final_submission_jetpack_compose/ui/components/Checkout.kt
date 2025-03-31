@@ -32,6 +32,7 @@ import com.example.final_submission_jetpack_compose.R
 @Composable
 fun CheckoutComponent(
     modifier: Modifier = Modifier,
+    addCart : () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -44,7 +45,8 @@ fun CheckoutComponent(
         Box(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxHeight(),
+                .fillMaxHeight()
+                .clickable { addCart() },
             contentAlignment = Alignment.Center
         ) {
             Row(
@@ -72,7 +74,7 @@ fun CheckoutComponent(
                 .fillMaxHeight()
                 .background(MaterialTheme.colorScheme.primary)
                 .clickable {
-                    Toast.makeText(context, R.string.checkout, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.checkout_msg, Toast.LENGTH_SHORT).show()
                 },
             contentAlignment = Alignment.Center,
         ) {
@@ -91,5 +93,5 @@ fun CheckoutComponent(
 @Composable
 @Preview(showBackground = true)
 fun CheckoutPreview() {
-    CheckoutComponent()
+    CheckoutComponent(addCart = {})
 }
