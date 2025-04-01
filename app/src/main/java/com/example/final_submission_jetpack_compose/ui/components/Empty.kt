@@ -10,12 +10,13 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun EmptyComponent(
+    msg: String,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        Text(text = "Empty data")
+        Text(text = msg)
     }
 }

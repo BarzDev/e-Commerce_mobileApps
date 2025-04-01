@@ -1,10 +1,10 @@
 package com.example.final_submission_jetpack_compose.ui.screen.product_detail
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.final_submission_jetpack_compose.R
 import com.example.final_submission_jetpack_compose.data.ProductRepository
 import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem
 import com.example.final_submission_jetpack_compose.ui.common.UiState
@@ -35,8 +35,7 @@ class ProductDetailViewModel(private val repository: ProductRepository) : ViewMo
 
     fun addToCart(product: ProductItem, context: Context) = viewModelScope.launch {
         repository.addToCart(product)
-        Toast.makeText(context, "Added to Cart", Toast.LENGTH_SHORT).show()
-//        Log.d("addToCartVM", cart.value.toString())
+        Toast.makeText(context, R.string.added_cart_msg, Toast.LENGTH_SHORT).show()
     }
 }
 

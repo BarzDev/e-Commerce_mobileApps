@@ -4,8 +4,15 @@
     <string name="menu_cart">Cart</string>
     <string name="menu_about">About</string>
     <string name="price">$ %s</string>
-    <string name="checkout_msg">"Checkout successfully"</string>
     <string name="creator_name">Fakhrul Ghozali Akbar S.</string>
     <string name="creator_email">fakhrul@raharja.info</string>
     <string name="totalPrice">Total : %.2f</string>
+    <string name="checkout_now">Checkout Now</string>
+    <string name="checkout_now_msg">"Checkout successfully"</string>
+    <string name="checkout_total">Checkout</string>
+    <string name="checkout_total_msg">Checkout $%.2f successfully</string>
+    <string name="empty_cart_msg">Cart is empty</string>
+    <string name="empty_product_msg">Product is empty</string>
+    <string name="added_cart_msg">Added to Cart</string>
+
 </resources>

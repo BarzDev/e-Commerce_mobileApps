@@ -24,4 +24,8 @@ class CartViewModel(private val repository: ProductRepository) : ViewModel() {
     fun removeItem(id: Int) {
         repository.removeItem(id)
     }
+
+    fun clearCart() {
+        repository.clearCart()
+    }
 }

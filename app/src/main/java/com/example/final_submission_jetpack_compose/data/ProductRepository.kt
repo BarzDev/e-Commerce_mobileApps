@@ -3,10 +3,8 @@ package com.example.final_submission_jetpack_compose.data
 import com.example.final_submission_jetpack_compose.data.remote.model.Cart
 import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem
 import com.example.final_submission_jetpack_compose.data.remote.retrofit.ApiConfig
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flowOf
 
 class ProductRepository {
     private val _products = MutableStateFlow<List<ProductItem>>(emptyList())
@@ -64,8 +62,6 @@ class ProductRepository {
             _cart.value = currentCart
         }
     }
-
-
 
     fun clearCart() {
         _cart.value = emptyList()

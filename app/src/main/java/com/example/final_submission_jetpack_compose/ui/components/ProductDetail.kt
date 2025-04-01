@@ -126,8 +126,6 @@ fun ProductDetail(
                         )
                         .padding(4.dp)
                 )
-
-
             }
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -152,8 +150,6 @@ fun ProductDetail(
                     lineHeight = 20.sp
                 )
             }
-
-
         }
         CheckoutComponent(
             addCart = { addCart() },
