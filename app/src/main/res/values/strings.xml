@@ -14,5 +14,6 @@
     <string name="empty_cart_msg">Cart is empty</string>
     <string name="empty_product_msg">Product is empty</string>
     <string name="added_cart_msg">Added to Cart</string>
-
+    <string name="not_found_product_msg">Product not found</string>
+    <string name="search">Search</string>
 </resources>

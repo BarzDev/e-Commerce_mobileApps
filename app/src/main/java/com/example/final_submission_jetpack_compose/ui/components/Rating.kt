@@ -19,8 +19,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem
-import com.example.final_submission_jetpack_compose.data.remote.model.Rating
 
 @Composable
 fun RatingComponent(
@@ -72,15 +70,6 @@ fun RatingComponent(
 @Composable
 @Preview(showBackground = true)
 fun RatingComponentPreview() {
-    val dummyProduct = ProductItem(
-        id = 1,
-        title = "Product 1",
-        image = "https://product1.jpg",
-        price = 5000F,
-        description = "description product",
-        category = "Category A",
-        rating = Rating(rate = 4.5F, count = 100)
-    )
     RatingComponent(
         gap = 16,
         iconSize = 20,

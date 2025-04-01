@@ -7,5 +7,4 @@ sealed class Screen(val route: String) {
     data object ProductDetail : Screen("product_detail/{id}") {
         fun createRoute(id: Int) = "product_detail/$id"
     }
-
 }

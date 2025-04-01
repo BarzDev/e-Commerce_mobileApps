@@ -85,7 +85,7 @@ fun ProductDetail(
             Box(
                 modifier = modifier
                     .padding(end = 40.dp)
-                    .clickable {  }
+                    .clickable { }
             ) {
                 BadgedBox(
                     badge = {
@@ -104,7 +104,7 @@ fun ProductDetail(
                         modifier = Modifier
                             .size(38.dp)
                             .padding(5.dp)
-                            .clickable {navigateToCart()}
+                            .clickable { navigateToCart() }
                     )
                 }
             }
@@ -182,9 +182,11 @@ fun ProductDetail(
 
                 Text(
                     text = description,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Justify,
-                    lineHeight = 20.sp
+                    lineHeight = 20.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
                 )
             }
         }
@@ -200,9 +202,9 @@ fun ProductDetailPreview() {
     ProductDetail(
         title = "Product 1",
         image = "https://product1.jpg",
-        price = "5000F",
+        price = "5000",
         description = "description product",
-        rate = "4.5F",
+        rate = "4.5",
         count = "100",
         cartCount = 20,
         navigateBack = {},

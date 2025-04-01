@@ -3,13 +3,9 @@ package com.example.final_submission_jetpack_compose.ui.screen.product
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,6 +26,8 @@ import com.example.final_submission_jetpack_compose.ui.components.EmptyComponent
 import com.example.final_submission_jetpack_compose.ui.components.ErrorHandlerComponent
 import com.example.final_submission_jetpack_compose.ui.components.LoadingComponent
 import com.example.final_submission_jetpack_compose.ui.components.ProductCard
+import com.example.final_submission_jetpack_compose.ui.components.SearchBar
+
 
 @Composable
 fun ProductScreen(
@@ -45,46 +43,30 @@ fun ProductScreen(
         viewModel.fetchProducts()
     }
 
-    val filteredProducts = when (val state = uiState) {
+    when (val state = uiState) {
         is UiState.Loading -> {
             LoadingComponent()
-            emptyList<ProductItem>() // Loading state, return empty list
         }
 
         is UiState.Success -> {
-            if (state.data.isEmpty()) {
-                EmptyComponent(msg = stringResource(R.string.empty_product_msg))
-                emptyList<ProductItem>() // No products found
-            } else {
-                // Filter produk berdasarkan query
-                state.data.filter {
-                    it.title.contains(query, ignoreCase = true)
+            val filteredProducts = viewModel.searchProducts(query)
+
+            Column {
+                SearchBar(query = query, onQueryChange = { query = it })
+
+                if (filteredProducts.isEmpty()) {
+                    EmptyComponent(msg = stringResource(R.string.not_found_product_msg))
+                } else {
+                    ProductList(
+                        products = filteredProducts,
+                        navigateToDetail = navigateToDetail
+                    )
                 }
             }
         }
 
         is UiState.Error -> {
             ErrorHandlerComponent(state.errorMessage) { viewModel.fetchProducts() }
-            emptyList<ProductItem>() // Error state, return empty list
-        }
-    }
-
-    // Tampilan UI dengan search field
-    Column {
-        TextField(
-            value = query,
-            onValueChange = { query = it },
-            label = { Text("Search") },
-            modifier = Modifier.fillMaxWidth().padding(16.dp)
-        )
-
-        if (filteredProducts.isEmpty()) {
-            EmptyComponent(msg = stringResource(R.string.empty_product_msg))
-        } else {
-            ProductList(
-                products = filteredProducts,
-                navigateToDetail = navigateToDetail
-            )
         }
     }
 }

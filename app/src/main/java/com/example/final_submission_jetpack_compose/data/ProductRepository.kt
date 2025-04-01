@@ -25,6 +25,12 @@ class ProductRepository {
         return ApiConfig.getApiService().getProductById(id)
     }
 
+    fun filterProducts(query: String): List<ProductItem> {
+        return _products.value.filter {
+            it.title.contains(query, ignoreCase = true)
+        }
+    }
+
     private fun updateCartCount() {
         _cartCount.value = _cart.value.sumOf { it.qty }
     }

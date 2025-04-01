@@ -31,4 +31,9 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
         }
     }
 
+    fun searchProducts(query: String): List<ProductItem> {
+        return repository.filterProducts(query)
+    }
+
+
 }
