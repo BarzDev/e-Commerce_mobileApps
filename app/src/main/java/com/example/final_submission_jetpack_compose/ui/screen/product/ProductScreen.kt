@@ -2,13 +2,21 @@ package com.example.final_submission_jetpack_compose.ui.screen.product
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -31,34 +39,56 @@ fun ProductScreen(
     navigateToDetail: (Int) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState(initial = UiState.Loading)
+    var query by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
         viewModel.fetchProducts()
     }
 
-    when (val state = uiState) {
+    val filteredProducts = when (val state = uiState) {
         is UiState.Loading -> {
             LoadingComponent()
+            emptyList<ProductItem>() // Loading state, return empty list
         }
 
         is UiState.Success -> {
             if (state.data.isEmpty()) {
-                EmptyComponent(
-                    msg = stringResource(R.string.empty_product_msg)
-                )
+                EmptyComponent(msg = stringResource(R.string.empty_product_msg))
+                emptyList<ProductItem>() // No products found
             } else {
-                ProductList(
-                    products = state.data,
-                    navigateToDetail = navigateToDetail
-                )
+                // Filter produk berdasarkan query
+                state.data.filter {
+                    it.title.contains(query, ignoreCase = true)
+                }
             }
         }
 
         is UiState.Error -> {
             ErrorHandlerComponent(state.errorMessage) { viewModel.fetchProducts() }
+            emptyList<ProductItem>() // Error state, return empty list
+        }
+    }
+
+    // Tampilan UI dengan search field
+    Column {
+        TextField(
+            value = query,
+            onValueChange = { query = it },
+            label = { Text("Search") },
+            modifier = Modifier.fillMaxWidth().padding(16.dp)
+        )
+
+        if (filteredProducts.isEmpty()) {
+            EmptyComponent(msg = stringResource(R.string.empty_product_msg))
+        } else {
+            ProductList(
+                products = filteredProducts,
+                navigateToDetail = navigateToDetail
+            )
         }
     }
 }
+
 
 @Composable
 fun ProductList(
