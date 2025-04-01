@@ -26,11 +26,10 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ProductCounter(
-    orderId: Long,
     orderCount: Int,
-    onProductIncreased: (Long) -> Unit,
-    onProductDecreased: (Long) -> Unit,
-    onProductDeleted: (Long) -> Unit,
+    onIncrease: () -> Unit,
+    onDecrease: () -> Unit,
+    onDelete: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -47,7 +46,7 @@ fun ProductCounter(
                 .size(30.dp)
                 .padding(1.dp),
             onClick = {
-                onProductDecreased(orderId)
+                onDecrease()
             },
         )
         Text(
@@ -66,11 +65,11 @@ fun ProductCounter(
                 .size(30.dp)
                 .padding(1.dp),
             onClick = {
-                onProductIncreased(orderId)
+                onIncrease()
             },
         )
         DeleteButton(
-            onClick = { onProductDeleted(orderId) },
+            onClick = { onDelete() },
             modifier = Modifier.size(30.dp)
         )
     }
@@ -119,10 +118,9 @@ fun DeleteButton(
 @Preview(showBackground = true)
 fun ProductCounterPreview() {
     ProductCounter(
-        orderId = 1,
         orderCount = 0,
-        onProductIncreased = {},
-        onProductDecreased = {},
-        onProductDeleted = {}
+        onIncrease = {},
+        onDecrease = {},
+        onDelete = {}
     )
 }

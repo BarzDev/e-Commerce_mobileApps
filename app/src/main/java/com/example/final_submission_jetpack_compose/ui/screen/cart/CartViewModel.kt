@@ -12,4 +12,16 @@ class CartViewModel(private val repository: ProductRepository) : ViewModel() {
     val uiState: StateFlow<UiState<ProductItem>> get() = _uiState
 
     val cart = repository.cart
+
+    fun increaseQty(id: Int) {
+        repository.updateCart(id, 1)
+    }
+
+    fun decreaseQty(id: Int) {
+        repository.updateCart(id, -1)
+    }
+
+    fun removeItem(id: Int) {
+        repository.removeItem(id)
+    }
 }

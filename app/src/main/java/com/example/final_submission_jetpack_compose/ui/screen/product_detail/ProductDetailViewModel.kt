@@ -36,8 +36,7 @@ class ProductDetailViewModel(private val repository: ProductRepository) : ViewMo
     fun addToCart(product: ProductItem, context: Context) = viewModelScope.launch {
         repository.addToCart(product)
         Toast.makeText(context, "Added to Cart", Toast.LENGTH_SHORT).show()
-        Log.d("addToCartVM", cart.value.toString())
-
+//        Log.d("addToCartVM", cart.value.toString())
     }
 }
 

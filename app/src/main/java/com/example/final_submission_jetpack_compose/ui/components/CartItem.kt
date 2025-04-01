@@ -1,6 +1,7 @@
 package com.example.final_submission_jetpack_compose.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,8 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,12 +28,13 @@ import com.example.final_submission_jetpack_compose.R
 
 @Composable
 fun CartItem(
-    rewardId: Long,
     image: String,
     title: String,
-    price: Int,
+    price: String,
     count: Int,
-    onProductCountChanged: (id: Long, count: Int) -> Unit,
+    onIncrease: () -> Unit,
+    onDecrease: () -> Unit,
+    onDelete: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val painter = rememberAsyncImagePainter(
@@ -53,6 +57,7 @@ fun CartItem(
             contentScale = ContentScale.Fit,
             modifier = Modifier
                 .size(90.dp)
+                .background(Color.White)
                 .clip(RoundedCornerShape(8.dp))
         )
         Column(
@@ -65,22 +70,21 @@ fun CartItem(
                 text = title,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.ExtraBold
+                style = MaterialTheme.typography.titleSmall.copy(
+                    fontWeight = FontWeight.Bold
                 )
             )
             Text(
-                text = price.toString(),
+                text = stringResource(R.string.price, price),
                 color = MaterialTheme.colorScheme.secondary,
                 style = MaterialTheme.typography.titleSmall,
             )
         }
         ProductCounter(
-            orderId = rewardId,
             orderCount = count,
-            onProductIncreased = { onProductCountChanged(rewardId, count + 1) },
-            onProductDecreased = { onProductCountChanged(rewardId, count - 1) },
-            onProductDeleted = { onProductCountChanged(rewardId, 0) },
+            onIncrease = onIncrease,
+            onDecrease = onDecrease,
+            onDelete = onDelete,
             modifier = Modifier.padding(8.dp)
         )
     }
@@ -91,11 +95,12 @@ fun CartItem(
 @Preview(showBackground = true)
 fun CartItemPreview() {
     CartItem(
-        4,
         "R.drawable.reward_4",
         "Jaket Hoodie Dicoding",
-        4000,
+        "4000",
         0,
-        onProductCountChanged = { rewardId, count -> },
+        {},
+        {},
+        {}
     )
 }
