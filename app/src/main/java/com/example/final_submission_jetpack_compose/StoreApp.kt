@@ -137,6 +137,16 @@ fun StoreApp(
                 ProductDetailScreen(
                     id = it.arguments?.getInt("id") ?: 0,
                     navigateBack = { navController.navigateUp() },
+                    navigateToCart = {
+                        navController.popBackStack()
+                        navController.navigate(Screen.Cart.route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
                 )
             }
         }

@@ -17,6 +17,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -46,7 +49,9 @@ fun ProductDetail(
     description: String,
     rate: String,
     count: String,
+    cartCount: Int,
     navigateBack: () -> Unit,
+    navigateToCart: () -> Unit,
     modifier: Modifier = Modifier,
     addCart: () -> Unit
 ) {
@@ -61,7 +66,10 @@ fun ProductDetail(
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
-                .padding(start = 15.dp)
+                .fillMaxWidth()
+                .padding(start = 15.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
             Icon(
@@ -73,6 +81,35 @@ fun ProductDetail(
                     .padding(5.dp)
                     .clickable { navigateBack() }
             )
+
+            Box(
+                modifier = modifier
+                    .padding(end = 40.dp)
+                    .clickable {  }
+            ) {
+                BadgedBox(
+                    badge = {
+                        Badge {
+                            Text(
+                                text = cartCount.toString(),
+                                style = MaterialTheme.typography.labelSmall
+                            )
+                        }
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.ShoppingCart,
+                        contentDescription = "Cart",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier
+                            .size(38.dp)
+                            .padding(5.dp)
+                            .clickable {navigateToCart()}
+                    )
+                }
+            }
+
+
         }
         Column(
             modifier = Modifier
@@ -155,7 +192,6 @@ fun ProductDetail(
             addCart = { addCart() },
         )
     }
-
 }
 
 @Composable
@@ -168,6 +204,8 @@ fun ProductDetailPreview() {
         description = "description product",
         rate = "4.5F",
         count = "100",
+        cartCount = 20,
         navigateBack = {},
+        navigateToCart = {},
         addCart = {})
 }

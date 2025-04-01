@@ -20,9 +20,11 @@ fun ProductDetailScreen(
     ),
     id: Int,
     navigateBack: () -> Unit,
+    navigateToCart: () -> Unit
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
+    val cartCount by viewModel.cartCount.collectAsState()
 
     LaunchedEffect(id) {
         viewModel.getProductById(id)
@@ -42,6 +44,8 @@ fun ProductDetailScreen(
                 rate = state.data.rating.rate.toString(),
                 count = state.data.rating.count.toString(),
                 navigateBack = navigateBack,
+                navigateToCart = navigateToCart,
+                cartCount = cartCount,
                 addCart = { viewModel.addToCart(product = state.data, context = context) }
             )
         }

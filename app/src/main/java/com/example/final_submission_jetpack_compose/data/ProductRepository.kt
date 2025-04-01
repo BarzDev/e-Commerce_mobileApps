@@ -13,6 +13,9 @@ class ProductRepository {
     private val _cart = MutableStateFlow<List<Cart>>(emptyList())
     val cart = _cart.asStateFlow()
 
+    private val _cartCount = MutableStateFlow(0)
+    val cartCount = _cartCount.asStateFlow()
+
     suspend fun fetchData() {
         val response = ApiConfig.getApiService().getProducts()
         _products.value = response
@@ -20,6 +23,10 @@ class ProductRepository {
 
     suspend fun getProduct(id: Int): ProductItem {
         return ApiConfig.getApiService().getProductById(id)
+    }
+
+    private fun updateCartCount() {
+        _cartCount.value = _cart.value.sumOf { it.qty }
     }
 
     fun addToCart(product: ProductItem) {
@@ -34,6 +41,7 @@ class ProductRepository {
         }
 
         _cart.value = currentCart
+        updateCartCount()
     }
 
     fun updateCart(id: Int, count: Int) {
@@ -50,6 +58,7 @@ class ProductRepository {
                 currentCart.removeAt(existingItemIndex)
             }
             _cart.value = currentCart
+            updateCartCount()
         }
     }
 
@@ -60,13 +69,18 @@ class ProductRepository {
         if (existingItemIndex != -1) {
             currentCart.removeAt(existingItemIndex)
             _cart.value = currentCart
+            updateCartCount()
         }
     }
 
     fun clearCart() {
         _cart.value = emptyList()
+        updateCartCount()
     }
 
+    fun getCartCount(): Int {
+        return _cart.value.sumOf { it.qty }
+    }
 
     companion object {
         @Volatile

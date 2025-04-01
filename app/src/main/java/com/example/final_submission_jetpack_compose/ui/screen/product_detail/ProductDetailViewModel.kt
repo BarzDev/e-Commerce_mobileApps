@@ -17,6 +17,8 @@ class ProductDetailViewModel(private val repository: ProductRepository) : ViewMo
     val uiState: StateFlow<UiState<ProductItem>> get() = _uiState
 
     val cart = repository.cart
+    val cartCount = repository.cartCount
+
 
     fun getProductById(id: Int) {
         if (_uiState.value is UiState.Success) return
