@@ -2,9 +2,9 @@ package com.example.final_submission_jetpack_compose.ui.screen.product_detail
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.final_submission_jetpack_compose.di.Injection
 import com.example.final_submission_jetpack_compose.ui.ViewModelFactory
@@ -23,8 +23,8 @@ fun ProductDetailScreen(
     navigateToCart: () -> Unit
 ) {
     val context = LocalContext.current
-    val uiState by viewModel.uiState.collectAsState()
-    val cartCount by viewModel.cartCount.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val cartCount by viewModel.cartCount.collectAsStateWithLifecycle()
 
     LaunchedEffect(id) {
         viewModel.getProductById(id)
