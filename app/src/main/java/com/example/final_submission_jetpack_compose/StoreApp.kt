@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.HistoryEdu
 import androidx.compose.material.icons.filled.LocalMall
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Badge
@@ -46,6 +47,7 @@ import com.example.final_submission_jetpack_compose.ui.navigation.NavigationItem
 import com.example.final_submission_jetpack_compose.ui.navigation.Screen
 import com.example.final_submission_jetpack_compose.ui.screen.about.AboutScreen
 import com.example.final_submission_jetpack_compose.ui.screen.cart.CartScreen
+import com.example.final_submission_jetpack_compose.ui.screen.history.HistoryScreen
 import com.example.final_submission_jetpack_compose.ui.screen.product.ProductScreen
 import com.example.final_submission_jetpack_compose.ui.screen.product_detail.ProductDetailScreen
 import com.example.final_submission_jetpack_compose.ui.screen.product_detail.ProductDetailViewModel
@@ -77,9 +79,33 @@ fun StoreApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(
-                route = Screen.Product.route,
+                route = Screen.History.route,
                 enterTransition = { slideInHorizontally(animationSpec = tween(300)) },
                 exitTransition = { slideOutHorizontally(animationSpec = tween(300)) }
+            ) {
+                HistoryScreen()
+            }
+
+            composable(
+                route = Screen.Product.route,
+                enterTransition = {
+                    if (currentRoute == Screen.Cart.route) {
+                        slideInHorizontally(animationSpec = tween(300))
+                    } else {
+                        slideInHorizontally(
+                            animationSpec = tween(300),
+                            initialOffsetX = { it })
+                    }
+                },
+                exitTransition = {
+                    if (currentRoute == Screen.Cart.route) {
+                        slideOutHorizontally(animationSpec = tween(300))
+                    } else {
+                        slideOutHorizontally(
+                            animationSpec = tween(300),
+                            targetOffsetX = { -it })
+                    }
+                }
             ) {
                 ProductScreen(
                     navigateToDetail = { productId ->
@@ -174,6 +200,11 @@ fun BottomBar(
         val currentRoute = navBackStackEntry?.destination?.route
 
         val navigationItems = listOf(
+            NavigationItem(
+                title = stringResource(R.string.menu_history),
+                icon = Icons.Default.HistoryEdu,
+                screen = Screen.History
+            ),
             NavigationItem(
                 title = stringResource(R.string.menu_product),
                 icon = Icons.Default.LocalMall,
