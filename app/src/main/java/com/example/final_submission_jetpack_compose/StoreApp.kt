@@ -10,6 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.LocalMall
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,6 +30,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -36,12 +40,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.final_submission_jetpack_compose.di.Injection
+import com.example.final_submission_jetpack_compose.ui.ViewModelFactory
 import com.example.final_submission_jetpack_compose.ui.navigation.NavigationItem
 import com.example.final_submission_jetpack_compose.ui.navigation.Screen
 import com.example.final_submission_jetpack_compose.ui.screen.about.AboutScreen
 import com.example.final_submission_jetpack_compose.ui.screen.cart.CartScreen
 import com.example.final_submission_jetpack_compose.ui.screen.product.ProductScreen
 import com.example.final_submission_jetpack_compose.ui.screen.product_detail.ProductDetailScreen
+import com.example.final_submission_jetpack_compose.ui.screen.product_detail.ProductDetailViewModel
 
 @Composable
 fun StoreApp(
@@ -152,8 +159,14 @@ fun StoreApp(
 @Composable
 fun BottomBar(
     navController: NavHostController,
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier,
+    viewModel: ProductDetailViewModel = viewModel(
+        factory = ViewModelFactory(Injection.provideRepository())
+    ),
+
+    ) {
+    val cartCount by viewModel.cartCount.collectAsStateWithLifecycle()
+
     NavigationBar(
         modifier = modifier,
     ) {
@@ -175,10 +188,28 @@ fun BottomBar(
         navigationItems.map { item ->
             NavigationBarItem(
                 icon = {
-                    Icon(
-                        imageVector = item.icon,
-                        contentDescription = item.title,
-                    )
+                    if (item.screen == Screen.Cart) {
+                        BadgedBox(
+                            badge = {
+                                Badge {
+                                    Text(
+                                        text = cartCount.toString(),
+                                        style = MaterialTheme.typography.labelSmall
+                                    )
+                                }
+                            }
+                        ) {
+                            Icon(
+                                imageVector = item.icon,
+                                contentDescription = item.title,
+                            )
+                        }
+                    } else {
+                        Icon(
+                            imageVector = item.icon,
+                            contentDescription = item.title,
+                        )
+                    }
                 },
                 label = { Text(item.title) },
                 selected = currentRoute == item.screen.route,
