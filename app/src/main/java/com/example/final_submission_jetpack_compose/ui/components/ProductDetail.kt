@@ -108,9 +108,8 @@ fun ProductDetail(
                     )
                 }
             }
-
-
         }
+
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())

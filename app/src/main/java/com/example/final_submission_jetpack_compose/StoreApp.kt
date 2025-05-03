@@ -47,6 +47,7 @@ import com.example.final_submission_jetpack_compose.ui.navigation.NavigationItem
 import com.example.final_submission_jetpack_compose.ui.navigation.Screen
 import com.example.final_submission_jetpack_compose.ui.screen.about.AboutScreen
 import com.example.final_submission_jetpack_compose.ui.screen.cart.CartScreen
+import com.example.final_submission_jetpack_compose.ui.screen.history.HistoryDetailScreen
 import com.example.final_submission_jetpack_compose.ui.screen.history.HistoryScreen
 import com.example.final_submission_jetpack_compose.ui.screen.product.ProductScreen
 import com.example.final_submission_jetpack_compose.ui.screen.product_detail.ProductDetailScreen
@@ -62,12 +63,22 @@ fun StoreApp(
 
     Scaffold(
         topBar = {
-            if (currentRoute !in listOf(Screen.About.route, Screen.ProductDetail.route)) {
+            if (currentRoute in listOf(
+                    Screen.Product.route,
+                    Screen.Cart.route,
+                    Screen.History.route
+                )
+            ) {
                 TopBar(navController)
             }
         },
         bottomBar = {
-            if (currentRoute !in listOf(Screen.About.route, Screen.ProductDetail.route)) {
+            if (currentRoute in listOf(
+                    Screen.Product.route,
+                    Screen.Cart.route,
+                    Screen.History.route
+                )
+            ) {
                 BottomBar(navController)
             }
         },
@@ -83,7 +94,11 @@ fun StoreApp(
                 enterTransition = { slideInHorizontally(animationSpec = tween(300)) },
                 exitTransition = { slideOutHorizontally(animationSpec = tween(300)) }
             ) {
-                HistoryScreen()
+                HistoryScreen(
+                    navigateToDetail = { orderId ->
+                        navController.navigate(Screen.HistoryDetail.createRoute(orderId))
+                    }
+                )
             }
 
             composable(
@@ -177,6 +192,17 @@ fun StoreApp(
                     },
                 )
             }
+
+            composable(
+                route = Screen.HistoryDetail.route,
+                arguments = listOf(navArgument("id") { type = NavType.StringType }),
+            ) {
+                HistoryDetailScreen(
+                    id = it.arguments?.getString("id") ?: "",
+                    navigateBack = { navController.navigateUp() },
+                )
+            }
+
         }
     }
 }

@@ -1,10 +1,12 @@
 package com.example.final_submission_jetpack_compose.data
 
 import com.example.final_submission_jetpack_compose.data.remote.model.Cart
+import com.example.final_submission_jetpack_compose.data.remote.model.Order
 import com.example.final_submission_jetpack_compose.data.remote.model.ProductItem
 import com.example.final_submission_jetpack_compose.data.remote.retrofit.ApiConfig
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.util.Date
 
 class ProductRepository {
     private val _products = MutableStateFlow<List<ProductItem>>(emptyList())
@@ -12,6 +14,9 @@ class ProductRepository {
 
     private val _cart = MutableStateFlow<List<Cart>>(emptyList())
     val cart = _cart.asStateFlow()
+
+    private val _order = MutableStateFlow<List<Order>>(emptyList())
+    val orders = _order.asStateFlow()
 
     private val _cartCount = MutableStateFlow(0)
     val cartCount = _cartCount.asStateFlow()
@@ -86,6 +91,30 @@ class ProductRepository {
 
     fun getCartCount(): Int {
         return _cart.value.sumOf { it.qty }
+    }
+
+    fun addTransaction(cart: List<Cart>) {
+        val currentOrder = _order.value.toMutableList()
+
+        val total = cart.fold(0f) { acc, item ->
+            acc + (item.product.price * item.qty)
+        }
+
+        val order = Order(
+            id = System.currentTimeMillis().toString(),
+            date = Date(System.currentTimeMillis()),
+            items = cart,
+            total = total
+        )
+
+        currentOrder.add(order)
+        _order.value = currentOrder
+
+        clearCart()
+    }
+
+    fun getDetailTransaction(id: String): Order {
+        return _order.value.first { it.id == id }
     }
 
     companion object {

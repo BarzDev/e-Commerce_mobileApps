@@ -25,7 +25,7 @@ class CartViewModel(private val repository: ProductRepository) : ViewModel() {
         repository.removeItem(id)
     }
 
-    fun clearCart() {
-        repository.clearCart()
+    fun addTransaction() {
+        repository.addTransaction(cart.value)
     }
 }

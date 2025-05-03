@@ -13,6 +13,7 @@
     <string name="checkout_total">Checkout</string>
     <string name="checkout_total_msg">Checkout $%.2f successfully</string>
     <string name="empty_cart_msg">Cart is empty</string>
+    <string name="empty_order_msg">Data transaction is empty</string>
     <string name="empty_product_msg">Product is empty</string>
     <string name="added_cart_msg">Added to Cart</string>
     <string name="not_found_product_msg">Product not found</string>

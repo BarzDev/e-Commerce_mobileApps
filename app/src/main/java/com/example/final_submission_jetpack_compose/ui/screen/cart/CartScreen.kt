@@ -15,7 +15,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.final_submission_jetpack_compose.R
 import com.example.final_submission_jetpack_compose.data.remote.model.Cart
@@ -42,7 +42,7 @@ fun CartScreen(
         factory = ViewModelFactory(Injection.provideRepository())
     )
 ) {
-    val carts by viewModel.cart.collectAsState(emptyList())
+    val carts by viewModel.cart.collectAsStateWithLifecycle(emptyList())
     val totalPrice = carts.sumOf { it.product.price.toDouble() * it.qty }
 
     if (carts.isEmpty()) {
@@ -67,7 +67,7 @@ fun CartScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.White),
-                clearCart = { viewModel.clearCart() }
+                clearCart = { viewModel.addTransaction() }
 
             )
             HorizontalDivider()
@@ -106,7 +106,7 @@ fun CartList(
 
 @Composable
 fun Payment(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     totalPrice: Double,
     clearCart: () -> Unit
 ) {
@@ -137,5 +137,14 @@ fun Payment(
 @Preview(showBackground = true)
 fun CartScreenPreview() {
     CartScreen()
+}
+
+@Composable
+@Preview(showBackground = true)
+fun PaymentPreview() {
+    Payment(
+        totalPrice = 100.00,
+        clearCart = {}
+    )
 }
 
