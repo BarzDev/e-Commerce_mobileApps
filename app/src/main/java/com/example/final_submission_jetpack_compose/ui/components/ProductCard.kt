@@ -51,7 +51,7 @@ fun ProductCard(
 
     Card(
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+//        colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         modifier = modifier.padding(8.dp)
     ) {
@@ -66,6 +66,7 @@ fun ProductCard(
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(8.dp))
+                        .background(Color.White)
                 )
                 Text(
                     text = stringResource(R.string.price, price),

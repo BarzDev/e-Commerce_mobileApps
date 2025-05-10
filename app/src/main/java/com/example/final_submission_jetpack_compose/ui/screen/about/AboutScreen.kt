@@ -1,6 +1,5 @@
 package com.example.final_submission_jetpack_compose.ui.screen.about
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.final_submission_jetpack_compose.ui.theme.SoftWhite
 
 
 @Composable
@@ -36,8 +34,8 @@ fun AboutScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(padding)
-                    .background(SoftWhite),
+                    .padding(padding),
+//                    .background(SoftWhite),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.height(40.dp))
@@ -54,8 +52,8 @@ fun AboutScreen(
 
 @Composable
 fun ItemProfile(
-    title:String
-){
+    title: String
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

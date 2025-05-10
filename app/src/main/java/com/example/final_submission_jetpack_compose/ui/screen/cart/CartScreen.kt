@@ -33,7 +33,6 @@ import com.example.final_submission_jetpack_compose.di.Injection
 import com.example.final_submission_jetpack_compose.ui.ViewModelFactory
 import com.example.final_submission_jetpack_compose.ui.components.CartItem
 import com.example.final_submission_jetpack_compose.ui.components.EmptyComponent
-import com.example.final_submission_jetpack_compose.ui.theme.SoftWhite
 
 
 @Composable
@@ -54,7 +53,7 @@ fun CartScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(SoftWhite)
+//                .background(SoftWhite)
         ) {
             CartList(
                 carts = carts,

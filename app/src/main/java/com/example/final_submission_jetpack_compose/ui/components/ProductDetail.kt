@@ -39,7 +39,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.final_submission_jetpack_compose.R
-import com.example.final_submission_jetpack_compose.ui.theme.SoftWhite
 
 @Composable
 fun ProductDetail(
@@ -114,7 +113,7 @@ fun ProductDetail(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .weight(1f)
-                .background(SoftWhite)
+//                .background(SoftWhite)
         ) {
             Box(
                 modifier = modifier
